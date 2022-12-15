@@ -2,6 +2,7 @@ package ordertests;
 
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import order.Ingredients;
 import order.OrderClient;
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +18,7 @@ public class OrderGetTest {
     private UserClient userClient;
     private OrderClient orderClient;
     private String accessToken;
-    String ingredient = "{\n" + "\"ingredients\": [\"61c0c5a71d1f82001bdaaa6d\"]\n" + "}\n";
+    private Ingredients ingredients;
 
     @Before
     public void setUp() {
@@ -26,7 +27,7 @@ public class OrderGetTest {
         orderClient = new OrderClient();
         ValidatableResponse createUserResponse = userClient.createUser(user);
         accessToken = createUserResponse.extract().path("accessToken");
-        orderClient.createOrderWithToken(accessToken.substring(7), ingredient).statusCode(200);
+        orderClient.createOrderWithToken(accessToken.substring(7), Ingredients.getRandomBurger()).statusCode(200);
     }
 
     @After
